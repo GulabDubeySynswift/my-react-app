@@ -22,17 +22,8 @@ jobs:
 
       - name: Deploy to EC2
         run: |
-          ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+          whoami
           cd /var/www
-
-          echo "🚀 Pulling latest code..."
-          git pull origin main
-
-          echo "⚛️ Building React..."
-          cd /var/www/my-react-app
-          npm install
-          npm run build
-
-          echo "🔄 Reloading Nginx..."
-          sudo systemctl reload nginx
+          ls
           EOF
