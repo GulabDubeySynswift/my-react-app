@@ -29,17 +29,24 @@ jobs:
           cd /var/www/my-react-app
 
           echo "📥 Pulling latest code..."
-          git pull origin main
+          git fetch origin
+          git reset --hard origin/main
+
+          echo "🔄 Loading NVM..."
+          export NVM_DIR="$HOME/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+          nvm use 20
 
           echo "📦 Installing dependencies..."
-          npm install
+          npm ci
 
           echo "⚛️ Building React..."
           npm run build
 
-          echo "🔄 Restarting Nginx..."
+          echo "🔄 Reloading Nginx..."
           sudo systemctl reload nginx
 
           echo "✅ Deployment Completed!"
-          
+
           EOF
